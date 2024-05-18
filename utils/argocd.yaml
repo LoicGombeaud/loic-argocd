@@ -13,7 +13,24 @@ spec:
     chart: argo-cd
     helm:
       valuesObject:
-        installCRDs: true
+        configs:
+          cm:
+            timeout.reconciliation: 10s
+        server:
+          extraArgs:
+          - --insecure
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+            enabled: true
+            hosts:
+            - argocd.loicgombeaud.com
+            ingressClassName: nginx
+            tls:
+            - hosts:
+              - argocd.loicgombeaud.com
+              secretName: argocd-tls
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
