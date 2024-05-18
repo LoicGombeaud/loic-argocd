@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: place-gavinies-wordpress
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: place-gavinies
+  source:
+    repoURL: registry-1.docker.io/bitnamicharts
+    targetRevision: 22.2.11
+    chart: wordpress
+    helm:
+      valuesObject:
+        ingress:
+          enabled: true
+          hostname: place-gavinies.fr
+          tls: false
+          ingressClassName: nginx
