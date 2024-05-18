@@ -9,10 +9,12 @@ spec:
   project: default
   source:
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 5.46.3
+    targetRevision: 6.9.3
     chart: argo-cd
     helm:
       valuesObject:
+        global:
+          domain: argocd.loicgombeaud.com
         configs:
           cm:
             timeout.reconciliation: 10s
@@ -24,8 +26,6 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt-prod
               nginx.ingress.kubernetes.io/ssl-redirect: "true"
             enabled: true
-            hosts:
-            - argocd.loicgombeaud.com
             ingressClassName: nginx
             tls:
             - hosts:
